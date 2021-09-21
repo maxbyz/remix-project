@@ -62,7 +62,7 @@ module.exports = {
   },
 
   'Should jump through breakpoints': function (browser: NightwatchBrowser) {
-    browser.waitForElementVisible('*[data-id="editorInput"]')
+    browser.waitForElementVisible('#editorView')
       .click('.ace_gutter-cell:nth-of-type(10)')
       .click('.ace_gutter-cell:nth-of-type(20)')
       .waitForElementVisible('*[data-id="buttonNavigatorJumpPreviousBreakpoint"]')

@@ -275,14 +275,6 @@ export class TabProxy extends Plugin {
     this.handlers[type] = fn
   }
 
-  onZoomOut () {
-    this.editor.editorFontSize(-1)
-  }
-
-  onZoomIn () {
-    this.editor.editorFontSize(1)
-  }
-
   renderTabsbar () {
     this._view.filetabs = yo`<remix-tabs class=${css.remix_tabs}></remix-tabs>`
     this._view.filetabs.addEventListener('tabClosed', (event) => {
@@ -296,17 +288,9 @@ export class TabProxy extends Plugin {
 
     this._view.filetabs.canAdd = false
 
-    const zoomBtns = yo`
-      <div class="d-flex flex-row justify-content-center align-items-center">
-        <span data-id="tabProxyZoomOut" class="btn btn-sm px-1 fas fa-search-minus text-dark" onclick=${() => this.onZoomOut()}></span>
-        <span data-id="tabProxyZoomIn" class="btn btn-sm px-1 fas fa-search-plus text-dark" onclick=${() => this.onZoomIn()}></span>
-      </div>
-    `
-
     // @todo(#2492) remove style after the mainPanel layout fix.
     this._view.tabs = yo`
       <div  style="display: -webkit-box; max-height: 32px">
-        ${zoomBtns}
         ${this._view.filetabs}
       </div>
     `

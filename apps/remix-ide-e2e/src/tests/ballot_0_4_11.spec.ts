@@ -28,7 +28,6 @@ module.exports = {
 
   'Deploy Ballot': function (browser: NightwatchBrowser) {
     browser.pause(500)
-      .testContracts('Untitled.sol', sources[0]['Untitled.sol'], ['Ballot'])
       .clickLaunchIcon('udapp')
       .selectAccount('0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c')
       .setValue('input[placeholder="uint8 _numProposals"]', '2')

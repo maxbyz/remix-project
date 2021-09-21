@@ -15,23 +15,23 @@ module.exports = {
       .waitForElementVisible('div[data-id="filePanelFileExplorerTree"]')
       .openFile('contracts')
       .openFile('contracts/1_Storage.sol')
-      .waitForElementVisible('*[data-id="editorInput"]')
-      .checkElementStyle('*[data-id="editorInput"]', 'font-size', '12px')
+      .waitForElementVisible('#editorView')
+      .checkElementStyle('#editorView', 'font-size', '12px')
       .click('*[data-id="tabProxyZoomIn"]')
       .click('*[data-id="tabProxyZoomIn"]')
-      .checkElementStyle('*[data-id="editorInput"]', 'font-size', '14px')
+      .checkElementStyle('#editorView', 'font-size', '14px')
   },
 
   'Should zoom out editor': function (browser: NightwatchBrowser) {
-    browser.waitForElementVisible('*[data-id="editorInput"]')
-      .checkElementStyle('*[data-id="editorInput"]', 'font-size', '14px')
+    browser.waitForElementVisible('#editorView')
+      .checkElementStyle('#editorView', 'font-size', '14px')
       .click('*[data-id="tabProxyZoomOut"]')
       .click('*[data-id="tabProxyZoomOut"]')
-      .checkElementStyle('*[data-id="editorInput"]', 'font-size', '12px')
+      .checkElementStyle('#editorView', 'font-size', '12px')
   },
 
   'Should display compile error in editor': function (browser: NightwatchBrowser) {
-    browser.waitForElementVisible('*[data-id="editorInput"]')
+    browser.waitForElementVisible('#editorView')
       .waitForElementVisible('*[class="ace_content"]')
       .click('*[class="ace_content"]')
       .sendKeys('*[class="ace_text-input"]', 'error')
@@ -45,7 +45,7 @@ module.exports = {
   },
 
   'Should minimize and maximize codeblock in editor': function (browser: NightwatchBrowser) {
-    browser.waitForElementVisible('*[data-id="editorInput"]')
+    browser.waitForElementVisible('#editorView')
       .waitForElementVisible('.ace_open')
       .click('.ace_start:nth-of-type(1)')
       .waitForElementVisible('.ace_closed')
@@ -54,14 +54,14 @@ module.exports = {
   },
 
   'Should add breakpoint to editor': function (browser: NightwatchBrowser) {
-    browser.waitForElementVisible('*[data-id="editorInput"]')
+    browser.waitForElementVisible('#editorView')
       .waitForElementNotPresent('.ace_breakpoint')
       .click('.ace_gutter-cell:nth-of-type(1)')
       .waitForElementVisible('.ace_breakpoint')
   },
 
   'Should load syntax highlighter for ace light theme': function (browser: NightwatchBrowser) {
-    browser.waitForElementVisible('*[data-id="editorInput"]')
+    browser.waitForElementVisible('#editorView')
       .checkElementStyle('.ace_keyword', 'color', aceThemes.light.keyword)
       .checkElementStyle('.ace_comment.ace_doc', 'color', aceThemes.light.comment)
       .checkElementStyle('.ace_function', 'color', aceThemes.light.function)
@@ -74,7 +74,7 @@ module.exports = {
       .waitForElementVisible('*[data-id="settingsTabThemeLabelDark"]')
       .click('*[data-id="settingsTabThemeLabelDark"]')
       .pause(2000)
-      .waitForElementVisible('*[data-id="editorInput"]')
+      .waitForElementVisible('#editorView')
     /* @todo(#2863) ch for class and not colors
     .checkElementStyle('.ace_keyword', 'color', aceThemes.dark.keyword)
     .checkElementStyle('.ace_comment.ace_doc', 'color', aceThemes.dark.comment)
@@ -87,7 +87,6 @@ module.exports = {
     // include all files here because switching between plugins in side-panel removes highlight
     browser
       .addFile('sourcehighlight.js', sourcehighlightScript)
-      .addFile('removeSourcehighlightScript.js', removeSourcehighlightScript)
       .addFile('removeAllSourcehighlightScript.js', removeAllSourcehighlightScript)
       .openFile('sourcehighlight.js')
       .executeScript('remix.exeCurrent()')
@@ -183,18 +182,6 @@ const sourcehighlightScript = {
             }
         }
         await remix.call('editor', 'highlight', pos3, 'contracts/3_Ballot.sol')
-    } catch (e) {
-        console.log(e.message)
-    }
-  })()
-  `
-}
-
-const removeSourcehighlightScript = {
-  content: `
-  (async () => {
-    try {
-        await remix.call('editor', 'discardHighlightAt', 32, 'contracts/3_Ballot.sol')         
     } catch (e) {
         console.log(e.message)
     }
